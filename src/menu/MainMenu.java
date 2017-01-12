@@ -108,8 +108,8 @@ public class MainMenu extends Application {
 			MenuButton backButton = new MenuButton("Back");
 			backButton.setOnMouseClicked(event -> {
 				System.out.println("Back button clicked!");
+				getChildren().add(getBackgroundView("background_menu.jpg"));
 				getChildren().add(menu0);
-				getChildren().remove(getBackgroundView("background_instruction.jpg"));
 				getChildren().remove(menu1);
 			});
 			

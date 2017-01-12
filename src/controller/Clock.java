@@ -3,12 +3,13 @@ package controller;
 import java.awt.image.BufferedImage;
 import java.util.Date;
 
+import javafx.application.Platform;
 import model.Game;
 import view.GameView;
 
 public class Clock extends Thread {
 
-  public static long TICK_LENGTH = 50;
+  public static long TICK_LENGTH = 0;
 
   private boolean running = true;
   private Game game;
@@ -46,14 +47,30 @@ public class Clock extends Thread {
         e.printStackTrace();
       }
     } else {
-      System.out.println("Can't keep up! Time too late: " + timeToWait * -1 + " ms");
+      //System.out.println("Can't keep up! Time too late: " + timeToWait * -1 + " ms");
     }
   }
 
   private void tick() {
+    long startTime = new Date().getTime();
+    
     BufferedImage image = camReader.takePhoto();
+    System.out.print("Photo: " + (new Date().getTime() - startTime) + " ms, ");
+    startTime = new Date().getTime();
+    
     imgProcessor.checkIfTouched(image, game.getScreen().getAllNumbers());
+    System.out.print("ImgProc: " + (new Date().getTime() - startTime) + " ms, ");
+    startTime = new Date().getTime();
+    
     game.update();
-    view.update(game);
+    System.out.print("GameUpdate: " + (new Date().getTime() - startTime) + " ms\n");
+    startTime = new Date().getTime();
+    
+    Platform.runLater(new Runnable() {
+      @Override
+      public void run() {
+        view.update(game, image);
+      }
+    });
   }
 }

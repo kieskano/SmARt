@@ -8,10 +8,10 @@ public class Objective {
     ADD, SUBTRACT, MULTIPLY, DEVIDE;
   }
 
-  private int answer;
   private Type type;
+  private int answer;
 
-  public Objective(int answer, Type type) {
+  public Objective(Type type, int answer) {
     this.type = type;
     this.answer = answer;
   }

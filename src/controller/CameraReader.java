@@ -4,14 +4,22 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamResolution;
+import com.sun.javafx.iio.ImageStorage.ImageType;
 
 public class CameraReader {
 
   private Webcam webcam;
   
+  
+  
   public CameraReader(int cameraNumber, Dimension dimensions) {
     webcam = Webcam.getWebcams().get(cameraNumber);
-    webcam.setViewSize(dimensions);
+    Dimension[] nonStandardResolutions = new Dimension[] {
+        WebcamResolution.HD720.getSize(),
+    };
+    webcam.setCustomViewSizes(nonStandardResolutions);
+    webcam.setViewSize(WebcamResolution.HD720.getSize());
   }
   
   public void open() {
@@ -23,6 +31,16 @@ public class CameraReader {
   }
   
   public BufferedImage takePhoto() {
-    return webcam.getImage();
+    return mirrorImage(webcam.getImage());
+  }
+  
+  private BufferedImage mirrorImage(BufferedImage image) {
+    BufferedImage result = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_RGB);
+    for (int x = 0; x < image.getWidth(); x++) {
+      for (int y = 0; y < image.getHeight(); y++) {
+        result.setRGB(image.getWidth() - x - 1, y, image.getRGB(x, y));
+      }
+    }
+    return result;
   }
 }

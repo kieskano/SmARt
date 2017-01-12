@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import controller.SmARt;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
@@ -32,6 +33,9 @@ public class MainMenu extends Application {
 	private static final int DISTANCEBETWEENBUTTONS = 10;
 
 	private Menu menu;
+	private ImageView background_menu = getBackgroundView("background_menu.jpg");
+	private ImageView background_instruction = getBackgroundView("background_instruction.jpg");
+	
 	
 	
 	/**
@@ -43,7 +47,7 @@ public class MainMenu extends Application {
 		root.setPrefSize(WIDTH, HEIGHT);
 		
 		menu = new Menu();
-		root.getChildren().addAll(getBackgroundView("background_menu.jpg"), menu);
+		root.getChildren().addAll(background_menu, menu);
 		
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
@@ -89,12 +93,13 @@ public class MainMenu extends Application {
 			MenuButton playButton = new MenuButton("Play Game");
 			playButton.setOnMouseClicked(event -> {
 				System.out.println("Play button clicked!");
+				SmARt.gameLoop();
 			});
 			
 			MenuButton instructionButton = new MenuButton("Instructions");
 			instructionButton.setOnMouseClicked(event -> {
 				System.out.println("Instructions button clicked!");
-				getChildren().add(getBackgroundView("background_instruction.jpg"));
+				getChildren().add(background_instruction);
 				getChildren().add(menu1);
 				getChildren().remove(menu0);
 				
@@ -108,7 +113,7 @@ public class MainMenu extends Application {
 			MenuButton backButton = new MenuButton("Back");
 			backButton.setOnMouseClicked(event -> {
 				System.out.println("Back button clicked!");
-				getChildren().add(getBackgroundView("background_menu.jpg"));
+				getChildren().remove(background_instruction);
 				getChildren().add(menu0);
 				getChildren().remove(menu1);
 			});

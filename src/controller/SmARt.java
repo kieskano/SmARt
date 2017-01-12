@@ -24,25 +24,31 @@ public class SmARt {
   public static final List<Type> ARITHMATIC_INSTRUCTIONS = Arrays.asList(new Type[]{Type.ADD, Type.SUBTRACT});
   
   public static void main(String[] args) {
-
-    //INIT toolkit
-    JFXPanel panel = new JFXPanel();
-    
-    GameView view = new GameView(SCREEN_DIMENSION.width, SCREEN_DIMENSION.height);
-    Platform.runLater(new Runnable() {
-      public void run() {
-        try {
-          view.start(new Stage());
-        } catch (Exception e) {
-          e.printStackTrace();
-        };
-      }
-    });
-    
-    Game game = new Game();
-    CameraReader camReader = new CameraReader(CAM_NR, CAM_DIMENSION);
-    ImageProcessor imgProcessor = new ImageProcessor();
-    Clock clock = new Clock(game, view, camReader, imgProcessor);
-    clock.start();
+	  gameLoop();
   }
+  
+  public static void gameLoop() {
+	//INIT toolkit
+	JFXPanel panel = new JFXPanel();
+	
+	GameView view = new GameView(SCREEN_DIMENSION.width, SCREEN_DIMENSION.height);
+	Platform.runLater(new Runnable() {
+	  public void run() {
+	    try {
+	      view.start(new Stage());
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    };
+	  }
+	});
+	
+	Game game = new Game();
+	CameraReader camReader = new CameraReader(CAM_NR, CAM_DIMENSION);
+	ImageProcessor imgProcessor = new ImageProcessor();
+	Clock clock = new Clock(game, view, camReader, imgProcessor);
+	clock.start();
+  }
+  
+  
+  
 }

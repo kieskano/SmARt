@@ -6,6 +6,22 @@ public class Objective {
 
   public enum Type {
     ADD, SUBTRACT, MULTIPLY, DEVIDE;
+    
+    public String toString() {
+      switch (this) {
+      case ADD:
+        return "+";
+      case DEVIDE:
+        return ":";
+      case MULTIPLY:
+        return "X";
+      case SUBTRACT:
+        return "-";
+      default:
+        return "ERROR";
+        
+      }
+    }
   }
 
   private Type type;
@@ -41,5 +57,13 @@ public class Objective {
     }
 
     return testAnswer == answer;
+  }
+  
+  public Type getType() {
+    return type;
+  }
+  
+  public int getAnswer() {
+    return answer;
   }
 }

@@ -23,6 +23,8 @@ public class SmARt {
   public static final int BIGGEST_NUMBER = 9;
   public static final List<Type> ARITHMATIC_INSTRUCTIONS = Arrays.asList(new Type[]{Type.ADD, Type.SUBTRACT});
   
+  private SmARt() {	}
+  
   public static void main(String[] args) {
 	  gameLoop();
   }

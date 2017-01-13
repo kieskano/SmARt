@@ -27,6 +27,7 @@ public class Clock extends Thread {
   public void run() {
     camReader.open();
     try {
+      view.setClock(this);
       while (running) {
         long startTime = new Date().getTime();
         tick();
@@ -72,5 +73,9 @@ public class Clock extends Thread {
         view.update(game, image);
       }
     });
+  }
+  
+  public void pleaseStop() {
+    running = false;
   }
 }

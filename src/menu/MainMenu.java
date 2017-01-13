@@ -36,7 +36,7 @@ public class MainMenu extends Application {
 
 	private Menu menu;
 	private Stage stage;
-	private ImageView background_menu = getBackgroundView("background_menu.jpg");
+	private ImageView background_menu = getBackgroundView("background_menu3.jpg");
 	private ImageView background_instruction = getBackgroundView("background_instruction.jpg");
 	
 	

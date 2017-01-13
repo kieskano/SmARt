@@ -3,6 +3,13 @@ package view;
 import model.Game;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import javax.imageio.ImageIO;
 
 import com.sun.javafx.tk.FontLoader;
 import com.sun.javafx.tk.Toolkit;
@@ -32,6 +39,8 @@ public class GameView extends Application {
 
   public static final Color NUMBER_STROKE_COLOR = Color.DARKBLUE;
   public static final Color NUMBER_FILL_COLOR = Color.LIGHTBLUE;
+  public static final Color NUMBER_SELECTED_STROKE_COLOR = Color.DARKGOLDENROD;
+  public static final Color NUMBER_SELECTED_FILL_COLOR = Color.LIGHTGOLDENRODYELLOW;
   public static final double NUMBER_STROKE_WIDTH = 5;
   public static final double NUMBER_TEXT_SIZE = 60;
   public static final Font NUMBER_TEXT_FONT = Font.font(FONT_NAME, NUMBER_TEXT_SIZE);
@@ -53,10 +62,18 @@ public class GameView extends Application {
   private Canvas canvas;
   private FontLoader fl;
   private Clock clock;
+  private Image checkMark;
 
   public GameView(int width, int height) {
     this.width = width;
     this.height = height;
+    try {
+      checkMark = new Image(Files.newInputStream(Paths.get("resources/images/check_mark.png")));
+    } catch (IOException e) {
+      e.printStackTrace();
+      System.out.println("COULD NOT LOAD IMAGE");
+      System.exit(1);
+    }
   }
 
   @Override
@@ -79,11 +96,11 @@ public class GameView extends Application {
         if (event.getCode() == KeyCode.ESCAPE && clock != null) {
           primaryStage.close();
           clock.pleaseStop();
-          new Thread(){
+          Platform.runLater(new Runnable() {
             public void run() {
-              MainMenu.main(new String[0]);
+              new MainMenu().start(new Stage());
             }
-          }.start();
+          });
         }
       }
     });
@@ -91,7 +108,7 @@ public class GameView extends Application {
     primaryStage.show();
   }
 
-  public void update(Game game, BufferedImage bImage) {
+  public void update(Game game, BufferedImage bImage, boolean answerCorrect) {
     if (canvas != null) {
       GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -101,12 +118,16 @@ public class GameView extends Application {
 
       //Draw numbers
       gc.setLineWidth(NUMBER_STROKE_WIDTH);
-      gc.setStroke(NUMBER_STROKE_COLOR);
-      gc.setFill(NUMBER_FILL_COLOR);
       gc.setFont(NUMBER_TEXT_FONT);
       for (Number number : game.getScreen().getAllNumbers()) {
         //Draw square
-        gc.setFill(NUMBER_FILL_COLOR);
+        if (number.isTouched()) {
+          gc.setStroke(NUMBER_SELECTED_STROKE_COLOR);
+          gc.setFill(NUMBER_SELECTED_FILL_COLOR);
+        } else {
+          gc.setStroke(NUMBER_STROKE_COLOR);
+          gc.setFill(NUMBER_FILL_COLOR);
+        }
         gc.fillRect(number.getX(), number.getY(), number.getSize(), number.getSize());
         gc.strokeRect(number.getX(), number.getY(), number.getSize(), number.getSize());
 
@@ -135,7 +156,14 @@ public class GameView extends Application {
       gc.setFont(OBJECTIVE_TEXT_FONT);
       gc.fillText(symbol, width/2 - fl.computeStringWidth(symbol, OBJECTIVE_TEXT_FONT)/2, height/4 + OBJECTIVE_TEXT_FONT.getSize()/3);
       gc.fillText(answer, width/2 - fl.computeStringWidth(answer, OBJECTIVE_TEXT_FONT)/2, height/2 + OBJECTIVE_TEXT_FONT.getSize()/3);
-
+      
+      gc.setStroke(Color.GREEN);
+      gc.strokeRect(0,0,50,50);
+      
+      //Draw check mark
+      if (answerCorrect) {
+        gc.drawImage(checkMark, width/2 - checkMark.getWidth()/2, height/2 - checkMark.getHeight()/2);
+      }
     }
   }
 

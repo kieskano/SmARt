@@ -3,7 +3,7 @@ package model;
 public class Number {
 
   private int value;
-  private int x;
+  private int x;		//X and Y coordinates represent the upper left corner of the square
   private int y;
   private int size;
   private boolean isTouched;

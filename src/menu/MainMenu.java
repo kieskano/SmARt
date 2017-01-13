@@ -35,6 +35,7 @@ public class MainMenu extends Application {
 	private static final int DISTANCEBETWEENBUTTONS = 10;
 
 	private Menu menu;
+	private Stage stage;
 	private ImageView background_menu = getBackgroundView("background_menu.jpg");
 	private ImageView background_instruction = getBackgroundView("background_instruction.jpg");
 	
@@ -44,6 +45,7 @@ public class MainMenu extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
+		this.stage = primaryStage;
 		Pane root = new Pane();
 		root.setPrefSize(WIDTH, HEIGHT);
 		
@@ -107,7 +109,7 @@ public class MainMenu extends Application {
 			//The menu buttons are implemented below here
 			MenuButton playButton = new MenuButton("Play Game");
 			playButton.setOnMouseClicked(event -> {
-				this.setVisible(false);
+				stage.close();
 				SmARt.gameLoop();
 			});
 			

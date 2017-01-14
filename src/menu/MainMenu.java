@@ -7,16 +7,18 @@ import java.nio.file.Paths;
 
 import controller.SmARt;
 import javafx.application.Application;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.TextAreaBuilder;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -25,6 +27,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Player;
 
 public class MainMenu extends Application {
 	
@@ -51,7 +54,7 @@ public class MainMenu extends Application {
 		
 		menu = new Menu();
 		root.getChildren().addAll(background_menu, menu);
-		
+		root.setFocusTraversable(true);
 		Scene scene = new Scene(root);
 		primaryStage.setScene(scene);
 		primaryStage.show();
@@ -99,18 +102,38 @@ public class MainMenu extends Application {
 			//Highscores menu
 			VBox menu2 = new VBox(DISTANCEBETWEENBUTTONS);
 			menu2.setTranslateX(WIDTH/2 - BUTTONWIDTH/2);
-			menu2.setTranslateY(HEIGHT/2 - BUTTONHEIGHT/2 + 4*DISTANCEBETWEENBUTTONS + 4*BUTTONHEIGHT);
+			menu2.setTranslateY(HEIGHT/4 - BUTTONHEIGHT/4 + 2*DISTANCEBETWEENBUTTONS + 2*BUTTONHEIGHT);
 			
-			//Highscores menu
+			//Options menu
 			VBox menu3 = new VBox(DISTANCEBETWEENBUTTONS);
 			menu3.setTranslateX(WIDTH/2 - BUTTONWIDTH/2);
-			menu3.setTranslateY(HEIGHT/2 - BUTTONHEIGHT/2 + 4*DISTANCEBETWEENBUTTONS + 4*BUTTONHEIGHT);
+			menu3.setTranslateY(HEIGHT/2 - BUTTONHEIGHT/2 - 1*DISTANCEBETWEENBUTTONS + 2*BUTTONHEIGHT);
+			
+			//Play Game menu
+			VBox menu4 = new VBox(DISTANCEBETWEENBUTTONS);
+			menu4.setTranslateX(WIDTH/2 - BUTTONWIDTH/2);
+			menu4.setTranslateY(HEIGHT/2 - BUTTONHEIGHT/2);
+
+			
+			//Contains all the scores for the highscores menu.
+			TextArea scoresArea = new TextArea();
+			scoresArea.setEditable(false);
+			scoresArea.setScrollTop(0);
+						
+			//Space for playername input field
+			Label label1 = new Label("Name:");
+			label1.setFont(new Font("Verdana", 20));
+			label1.setBackground(null);
+			TextField playernameField = new TextField(Player.getPlayername());
+			HBox hbPlayername = new HBox();
+			hbPlayername.getChildren().addAll(label1, playernameField);
+			hbPlayername.setSpacing(10);
 			
 			//The menu buttons are implemented below here
 			MenuButton playButton = new MenuButton("Play Game");
 			playButton.setOnMouseClicked(event -> {
-				stage.close();
-				SmARt.gameLoop();
+				getChildren().add(menu4);
+				getChildren().remove(menu0);
 			});
 			
 			MenuButton instructionButton = new MenuButton("Instructions");
@@ -122,12 +145,15 @@ public class MainMenu extends Application {
 			
 			MenuButton highscoreButton = new MenuButton("Highscores");
 			highscoreButton.setOnMouseClicked(event -> {
+				scoresArea.clear();
+				HighScores.insertScoresSorted(scoresArea);
 				getChildren().add(menu2);
 				getChildren().remove(menu0);
 			});
 			
 			MenuButton optionsButton = new MenuButton("Options");
 			optionsButton.setOnMouseClicked(event -> {
+				playernameField.setText(Player.getPlayername());
 				getChildren().add(menu3);
 				getChildren().remove(menu0);
 			});
@@ -135,6 +161,18 @@ public class MainMenu extends Application {
 			MenuButton exitButton = new MenuButton("Exit");
 			exitButton.setOnMouseClicked(event -> {
 				System.exit(0);
+			});
+			
+			MenuButton mpButton = new MenuButton("Multiplayer");
+			mpButton.setOnMouseClicked(event -> {
+				stage.close();
+				SmARt.gameLoop();
+//				SmARt.gameLoop(true);
+			});
+			
+			MenuButton spButton = new MenuButton("Singleplayer");
+			spButton.setOnMouseClicked(event -> {
+//				SmARt.gameLoop(false);
 			});
 			
 			MenuButton backButton1 = new MenuButton("Back");
@@ -150,19 +188,40 @@ public class MainMenu extends Application {
 				getChildren().remove(menu2);
 			});
 			
-			MenuButton backButton3 = new MenuButton("Back");
+			
+			MenuButton backButton3 = new MenuButton("Save and return");
 			backButton3.setOnMouseClicked(event -> {
+				Player.setPlayername(playernameField.getText());
 				getChildren().add(menu0);
 				getChildren().remove(menu3);
 			});
 			
-			TextArea textArea = new TextArea();
+			MenuButton backButton4 = new MenuButton("Return without saving");
+			backButton4.setOnMouseClicked(event -> {
+				getChildren().add(menu0);
+				getChildren().remove(menu3);
+			});
+			
+			MenuButton backButton5 = new MenuButton("Back");
+			backButton5.setOnMouseClicked(event -> {
+				getChildren().add(menu0);
+				getChildren().remove(menu4);
+			});
+			
+			setOnKeyReleased(event -> {
+				if (event.getCode() == KeyCode.ESCAPE) {
+					System.out.println("Escape character recognized, going back to mainscreen!");
+					getChildren().setAll(menu0);
+				}
+			});
+			
 			
 			//Add the buttons to the corresponding menus
 			menu0.getChildren().addAll(playButton, instructionButton, highscoreButton, optionsButton, exitButton);
 			menu1.getChildren().addAll(backButton1);
-			menu2.getChildren().addAll(backButton2);
-			menu3.getChildren().addAll(backButton3);
+			menu2.getChildren().addAll(scoresArea, backButton2);
+			menu3.getChildren().addAll(hbPlayername, backButton3, backButton4);
+			menu4.getChildren().addAll(mpButton, spButton, backButton5);
 			
 			Rectangle bg = new Rectangle(WIDTH, HEIGHT);
 			bg.setOpacity(0.1);

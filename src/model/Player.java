@@ -2,31 +2,27 @@ package model;
 
 public class Player {
 
-	private String playername = "";
-	private int score = 0;
-	
-	public Player() {
+	private static String playername = "Anonymous";
+	private static int score = 0;
 		
+	public Player(String _playername, int _score) {
+		playername = _playername;
+		score = _score;
 	}
 	
-	public Player(String playername, int score) {
-		this.playername = playername;
-		this.score = score;
-	}
-	
-	public void addPoints(int points) {
+	public static void addPoints(int points) {
 		score += points;
 	}
 	
-	public int getScore() {
+	public static int getScore() {
 		return score;
 	}
 	
-	public void setPlayername(String name) {
+	public static void setPlayername(String name) {
 		playername = name;
 	}
 	
-	public String getPlayername() {
+	public static String getPlayername() {
 		return playername;
 	}
 	

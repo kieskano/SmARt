@@ -59,7 +59,7 @@ public class Clock extends Thread {
     System.out.print("Photo: " + (new Date().getTime() - startTime) + " ms, ");
     startTime = new Date().getTime();
     
-    //imgProcessor.checkIfTouched(image, game.getScreen().getAllNumbers()); TODO UNCOMMENT DIS SHIT
+//    imgProcessor.checkIfTouched(image, game.getScreen().getAllNumbers()); TODO UNCOMMENT DIS SHIT
     System.out.print("ImgProc: " + (new Date().getTime() - startTime) + " ms, ");
     startTime = new Date().getTime();
     

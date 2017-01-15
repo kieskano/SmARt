@@ -41,4 +41,11 @@ public class Number {
     this.isTouched = isTouched;
   }
   
+  /**
+   * Prints info about the number. Only call this function when the number is touched.
+   */
+  public void printInfo() {
+	  System.out.printf("Number (%d,%d) value:%d has just been touched!", x, y, value);
+  }
+  
 }

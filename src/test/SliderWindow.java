@@ -136,18 +136,18 @@ public class SliderWindow extends Application{
   }
   
   public int getSatMin() {
-    return (int) hueMin.getValue();
+    return (int) satMin.getValue();
   }
   
   public int getSatMax() {
-    return (int) hueMax.getValue();
+    return (int) satMax.getValue();
   }
   
   public int getValMin() {
-    return (int) hueMin.getValue();
+    return (int) valMin.getValue();
   }
   
   public int getValMax() {
-    return (int) hueMax.getValue();
+    return (int) valMax.getValue();
   }
 }

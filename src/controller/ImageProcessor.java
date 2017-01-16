@@ -43,7 +43,7 @@ public class ImageProcessor implements ImgProcessor {
     } catch (IOException e) {
       e.printStackTrace();
     } 
-
+    
     long start = System.currentTimeMillis();
     Mat mat = pc.bufferedImageToMat(image);
     Mat mat2 = pc.getFilteredMat(mat);

@@ -26,7 +26,8 @@ public class ImageWindow extends Application {
     StackPane root = new StackPane();
 
     imgView = new ImageView();
-
+    root.getChildren().add(imgView);
+    
     Scene scene = new Scene(root);
     primaryStage.setScene(scene);
     primaryStage.show();

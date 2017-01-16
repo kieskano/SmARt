@@ -24,6 +24,16 @@ public class HSVTester {
         }
       }
     });
+    ImageWindow imgWin2 = new ImageWindow();
+    Platform.runLater(new Runnable() {
+      public void run() {
+        try {
+          imgWin2.start(new Stage());
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      }
+    });
     
     SliderWindow slWin = new SliderWindow();
     Platform.runLater(new Runnable() {
@@ -38,7 +48,7 @@ public class HSVTester {
     
     CameraReader camReader = new CameraReader(0, new Dimension(1280, 720));
     HSVimgFactory imgFac = new HSVimgFactory();
-    Clock clock = new Clock(slWin, camReader, imgWin, imgFac);
+    Clock clock = new Clock(slWin, camReader, imgWin, imgWin2, imgFac);
 
     clock.start();
   }

@@ -16,13 +16,15 @@ public class Clock extends Thread {
   private SliderWindow sliderWindow;
   private CameraReader camReader;
   private ImageWindow imageWindow;
+  private ImageWindow imgWin;
   private HSVimgFactory imgFactory;
 
-  public Clock(SliderWindow sliderWindow, CameraReader cameraReader, ImageWindow imageWindow, HSVimgFactory imgFactory) {
+  public Clock(SliderWindow sliderWindow, CameraReader cameraReader, ImageWindow imageWindow, ImageWindow imgWin, HSVimgFactory imgFactory) {
     this.sliderWindow = sliderWindow;
     this.camReader = cameraReader;
     this.imageWindow = imageWindow;
     this.imgFactory = imgFactory;
+    this.imgWin = imgWin;
   }
 
   public void run() {
@@ -57,6 +59,7 @@ public class Clock extends Thread {
     BufferedImage image = camReader.takePhoto();
     BufferedImage hsvImage = imgFactory.getHSVImage(image);
     imageWindow.showImage(hsvImage);
+    imgWin.showImage(image);
   }
   
   private void updateHSVValues() {

@@ -97,7 +97,8 @@ public class Screen {
       int y = 0;
       while (!emptySpaceFound) {
         x = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.getWidth() / 2 - SmARt.NUMBER_SQUARE_SIZE) + (SmARt.SCREEN_DIMENSION.getWidth() / 2));
-        y = (int) (Math.random() * SmARt.SCREEN_DIMENSION.getHeight() - SmARt.NUMBER_SQUARE_SIZE);
+//        y = (int) (Math.random() * SmARt.SCREEN_DIMENSION.getHeight() - SmARt.NUMBER_SQUARE_SIZE);
+        y = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.height - 2.0*SmARt.NUMBER_SQUARE_SIZE) + SmARt.NUMBER_SQUARE_SIZE);
         emptySpaceFound = true;
         for (Number number : rightNumbers) {
           //Check if generated square collides with already placed squares
@@ -119,11 +120,11 @@ public class Screen {
   }
 
   private void refreshObjective() {
-    int operation = (int) Math.round(Math.random() * (SmARt.ARITHMATIC_INSTRUCTIONS.size() - 1));
+    int operation = (int) Math.round(Math.random() * (SmARt.ARITHMETIC_INSTRUCTIONS.size() - 1));
     int leftNr = leftNumbers.get((int) Math.round(Math.random() * (SmARt.NUMBERS_PER_SIDE - 1))).getValue();
     int rightNr = rightNumbers.get((int) Math.round(Math.random() * (SmARt.NUMBERS_PER_SIDE - 1))).getValue();
     int answer = 0;
-    switch (SmARt.ARITHMATIC_INSTRUCTIONS.get(operation)) {
+    switch (SmARt.ARITHMETIC_INSTRUCTIONS.get(operation)) {
     case ADD:
       answer = leftNr + rightNr;
       break;
@@ -140,6 +141,6 @@ public class Screen {
       answer = -999;
       break;
     }
-    objective = new Objective(SmARt.ARITHMATIC_INSTRUCTIONS.get(operation), answer);
+    objective = new Objective(SmARt.ARITHMETIC_INSTRUCTIONS.get(operation), answer);
   }
 }

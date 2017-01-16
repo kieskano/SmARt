@@ -42,10 +42,10 @@ public class Number {
   }
   
   /**
-   * Prints info about the number. Only call this function when the number is touched.
+   * Prints info about the number.
    */
   public void printInfo() {
-	  System.out.printf("Number (%d,%d) value:%d has just been touched!", x, y, value);
+	  System.out.printf("Number (%4d,%4d) size:%3d value:%2d isTouched: %b\n", x, y, size, value, isTouched);
   }
   
 }

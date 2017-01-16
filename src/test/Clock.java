@@ -60,7 +60,12 @@ public class Clock extends Thread {
   }
   
   private void updateHSVValues() {
-    sliderWindow.getHueMin();
+    imgFactory.setHUE_MIN(sliderWindow.getHueMin());
+    imgFactory.setHUE_MAX(sliderWindow.getHueMax());
+    imgFactory.setSAT_MIN(sliderWindow.getSatMin());
+    imgFactory.setSAT_MAX(sliderWindow.getSatMax());
+    imgFactory.setVAL_MIN(sliderWindow.getValMin());
+    imgFactory.setVAL_MAX(sliderWindow.getValMax());
   }
 
   public void pleaseStop() {

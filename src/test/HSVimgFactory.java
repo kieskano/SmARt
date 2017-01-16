@@ -2,6 +2,10 @@ package test;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import org.opencv.core.Core;
 import org.opencv.core.CvType;
@@ -12,12 +16,35 @@ import org.opencv.imgproc.Imgproc;
 public class HSVimgFactory {
 
 	private static int HUE_MIN = 0;		// The Hue,Saturation, Value/Brightness (HSV) values with minimum and maximum boundaries
-	private static int HUE_MAX = 180;		// HUE range: (0-180) and SAT/VAL range: (0-255)
+	private static int HUE_MAX = 180;	// HUE range: (0-180) and SAT/VAL range: (0-255)
 	private static int SAT_MIN = 0;
 	private static int SAT_MAX = 255;
 	private static int VAL_MIN = 0;
 	private static int VAL_MAX = 50;
 
+	public static void main(String[] args) {
+		
+		HSVimgFactory imgFac = new HSVimgFactory();
+		
+		BufferedImage image = null;
+		try {
+			File input = new File("resources/testimages/before.jpg"); 
+			image = ImageIO.read(input);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
+		BufferedImage img = imgFac.getHSVImage(image);
+		
+		File outputfile = new File("resources/testimages/newAfter.jpg");
+		try {
+			ImageIO.write(img, "jpg", outputfile);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public HSVimgFactory() {	}
 
 	/**
 	 * Returns a black/white BufferedImage using the given BufferedImage and the set HSV values.
@@ -25,6 +52,8 @@ public class HSVimgFactory {
 	 * @return - black and white BufferedImage
 	 */
 	public BufferedImage getHSVImage(BufferedImage image) {
+		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+		
 		Mat mat = bufferedImageToMat(image);
 		Mat mat2 = getFilteredMat(mat);
 		BufferedImage bufImg = mat2Img(mat2);

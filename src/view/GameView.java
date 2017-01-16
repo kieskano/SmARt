@@ -192,7 +192,9 @@ public class GameView extends Application {
       
       //Draw check mark
       if (answerCorrect) {
+        gc.setGlobalAlpha(0.6);
         gc.drawImage(checkMark, width/2 - checkMark.getWidth()/2, height/2 - checkMark.getHeight()/2);
+        gc.setGlobalAlpha(1);
       }
     }
   }

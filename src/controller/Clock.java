@@ -15,9 +15,9 @@ public class Clock extends Thread {
   private Game game;
   private GameView view;
   private CameraReader camReader;
-  private ImageProcessor imgProcessor;
+  private ImgProcessor imgProcessor;
 
-  public Clock(Game game, GameView view, CameraReader camReader, ImageProcessor imgProcessor) {
+  public Clock(Game game, GameView view, CameraReader camReader, ImgProcessor imgProcessor) {
     this.game = game;
     this.view = view;
     this.camReader = camReader;
@@ -73,6 +73,13 @@ public class Clock extends Thread {
         view.update(game, image, game.answerIsCorrect());
       }
     });
+    if (game.answerIsCorrect()) {
+      try {
+        Thread.sleep(SmARt.TIME_CHECKMARK_SHOWED);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
   }
   
   public void pleaseStop() {

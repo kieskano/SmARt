@@ -46,6 +46,7 @@ public class GameView extends Application {
   public static final Font NUMBER_TEXT_FONT = Font.font(FONT_NAME, NUMBER_TEXT_SIZE);
 
   public static final Color TEXT_COLOR = Color.BLACK;
+  public static final Font DEBUG_FONT = Font.font(FONT_NAME, 15);
 
   public static final Color BORDER_COLOR = Color.BLACK;
   public static final int BORDER_WIDTH = 10;
@@ -78,13 +79,18 @@ public class GameView extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    fl = Toolkit.getToolkit().getFontLoader();
+    
     primaryStage.setTitle("SmARt");
     canvas = new Canvas(SmARt.SCREEN_DIMENSION.getWidth(), SmARt.SCREEN_DIMENSION.getHeight());
+    GraphicsContext gc = canvas.getGraphicsContext2D();
+    gc.setFill(Color.BLACK);
+    gc.setFont(Font.font("Veranda", 150));
+    gc.fillText("Loading...", SmARt.SCREEN_DIMENSION.getWidth()/2 - fl.computeStringWidth("Loading...", Font.font("Veranda", 150))/2, SmARt.SCREEN_DIMENSION.getHeight()/2);
     primaryStage.initStyle(StageStyle.UNDECORATED);
     primaryStage.setX(0);
     primaryStage.setY(0);
 
-    fl = Toolkit.getToolkit().getFontLoader();
 
     StackPane root = new StackPane();
     root.getChildren().add(canvas);
@@ -118,7 +124,6 @@ public class GameView extends Application {
 
       //Draw numbers
       gc.setLineWidth(NUMBER_STROKE_WIDTH);
-      gc.setFont(NUMBER_TEXT_FONT);
       for (Number number : game.getScreen().getAllNumbers()) {
         //Draw square
         if (number.isTouched()) {
@@ -132,9 +137,33 @@ public class GameView extends Application {
         gc.strokeRect(number.getX(), number.getY(), number.getSize(), number.getSize());
 
         //Draw number
+        gc.setFont(NUMBER_TEXT_FONT);
         gc.setFill(TEXT_COLOR);
         String text = "" + number.getValue();
         gc.fillText(text, number.getX() + number.getSize()/2 - fl.computeStringWidth(text, NUMBER_TEXT_FONT)/2, number.getY() + number.getSize()/2 + NUMBER_TEXT_SIZE/3);
+        
+        //DEBUG SHIT TODO
+        int xLoc = (int) (number.getX() * SmARt.IMG_SCALING);
+        int yLoc = (int) (number.getY() * SmARt.IMG_SCALING);
+        int size = (int) (number.getSize() * SmARt.IMG_SCALING);
+        int r = 0;
+        int g = 0;
+        int b = 0;
+
+        for (int x = xLoc; x < (xLoc + size); x++) {
+          for (int y = yLoc; y < (yLoc + size); y++) {
+            int color = bImage.getRGB(x, y);
+            b = b + (int) (color & 0xff);
+            g = g + (int) ((color & 0xff00) >> 8);
+            r = r + (int) ((color & 0xff0000) >> 16);
+          }
+        }
+        r = r / (size * size);
+        g = g / (size * size);
+        b = b / (size * size);
+        gc.setFill(Color.YELLOW);
+        gc.setFont(DEBUG_FONT);
+        gc.fillText("R=" + r + " G=" + g + " B=" + b, number.getX(), number.getY() + 10);
       }
 
       //Draw border
@@ -156,6 +185,7 @@ public class GameView extends Application {
       gc.setFont(OBJECTIVE_TEXT_FONT);
       gc.fillText(symbol, width/2 - fl.computeStringWidth(symbol, OBJECTIVE_TEXT_FONT)/2, height/4 + OBJECTIVE_TEXT_FONT.getSize()/3);
       gc.fillText(answer, width/2 - fl.computeStringWidth(answer, OBJECTIVE_TEXT_FONT)/2, height/2 + OBJECTIVE_TEXT_FONT.getSize()/3);
+      
       
       gc.setStroke(Color.GREEN);
       gc.strokeRect(0,0,50,50);

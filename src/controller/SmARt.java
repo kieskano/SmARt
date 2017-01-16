@@ -22,7 +22,8 @@ public class SmARt {
   public static final Dimension SCREEN_DIMENSION = new Dimension(1920, 1080);
   public static final int BIGGEST_NUMBER = 9;
   public static final List<Type> ARITHMATIC_INSTRUCTIONS = Arrays.asList(new Type[]{Type.ADD, Type.SUBTRACT});
-  public static final int NR_OF_FRAMES_CHECKMARK_SHOWED = 5;
+  public static final int NR_OF_FRAMES_CHECKMARK_SHOWED = 30;
+  public static double IMG_SCALING = CAM_DIMENSION.getWidth() / SCREEN_DIMENSION.getWidth();
   
   private SmARt() {	}
   

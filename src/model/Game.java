@@ -43,7 +43,7 @@ public class Game {
   }
 
   public boolean answerIsCorrect() {
-    return false;
+    return answerIsCorrect;
   }
 
 }

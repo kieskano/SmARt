@@ -27,7 +27,7 @@ public class ImageProcessor implements ImgProcessor {
   private static final int SAT_MIN = 0;
   private static final int SAT_MAX = 255;
   private static final int VAL_MIN = 0;
-  private static final int VAL_MAX = 50;
+  private static final int VAL_MAX = 35;
 
   private static final double MAX_COLORCODE = 255;
   private static final double SENSITIFITY = 0.25;

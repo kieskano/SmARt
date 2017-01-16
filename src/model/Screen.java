@@ -121,11 +121,11 @@ public class Screen {
   }
 
   private void refreshObjective() {
-    int operation = (int) Math.round(Math.random() * (SmARt.ARITHMATIC_INSTRUCTIONS.size() - 1));
+    int operation = (int) Math.round(Math.random() * (SmARt.ARITHMETIC_INSTRUCTIONS.size() - 1));
     int leftNr = leftNumbers.get((int) Math.round(Math.random() * (SmARt.NUMBERS_PER_SIDE - 1))).getValue();
     int rightNr = rightNumbers.get((int) Math.round(Math.random() * (SmARt.NUMBERS_PER_SIDE - 1))).getValue();
     int answer = 0;
-    switch (SmARt.ARITHMATIC_INSTRUCTIONS.get(operation)) {
+    switch (SmARt.ARITHMETIC_INSTRUCTIONS.get(operation)) {
     case ADD:
       answer = leftNr + rightNr;
       break;
@@ -142,6 +142,6 @@ public class Screen {
       answer = -999;
       break;
     }
-    objective = new Objective(SmARt.ARITHMATIC_INSTRUCTIONS.get(operation), answer);
+    objective = new Objective(SmARt.ARITHMETIC_INSTRUCTIONS.get(operation), answer);
   }
 }

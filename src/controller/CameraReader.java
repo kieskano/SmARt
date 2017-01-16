@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 
 import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamDriver;
 import com.github.sarxos.webcam.WebcamResolution;
 import com.sun.javafx.iio.ImageStorage.ImageType;
 
@@ -35,7 +36,7 @@ public class CameraReader {
   }
   
   private BufferedImage mirrorImage(BufferedImage image) {
-    BufferedImage result = new BufferedImage(1280, 720, BufferedImage.TYPE_INT_RGB);
+    BufferedImage result = new BufferedImage(SmARt.CAM_DIMENSION.width, SmARt.CAM_DIMENSION.height, BufferedImage.TYPE_3BYTE_BGR);
     for (int x = 0; x < image.getWidth(); x++) {
       for (int y = 0; y < image.getHeight(); y++) {
         result.setRGB(image.getWidth() - x - 1, y, image.getRGB(x, y));
@@ -43,4 +44,5 @@ public class CameraReader {
     }
     return result;
   }
+  
 }

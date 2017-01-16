@@ -41,4 +41,11 @@ public class Number {
     this.isTouched = isTouched;
   }
   
+  /**
+   * Prints info about the number.
+   */
+  public void printInfo() {
+	  System.out.printf("Number (%4d,%4d) size:%3d value:%2d isTouched: %b\n", x, y, size, value, isTouched);
+  }
+  
 }

@@ -23,9 +23,9 @@ public class HSVimgFactory {
 	private static int VAL_MAX = 50;
 
 	public static void main(String[] args) {
-		
+
 		HSVimgFactory imgFac = new HSVimgFactory();
-		
+
 		BufferedImage image = null;
 		try {
 			File input = new File("resources/testimages/before.jpg"); 
@@ -33,9 +33,9 @@ public class HSVimgFactory {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
-		
+
 		BufferedImage img = imgFac.getHSVImage(image);
-		
+
 		File outputfile = new File("resources/testimages/newAfter.jpg");
 		try {
 			ImageIO.write(img, "jpg", outputfile);
@@ -53,7 +53,7 @@ public class HSVimgFactory {
 	 */
 	public BufferedImage getHSVImage(BufferedImage image) {
 		System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
-		
+
 		Mat mat = bufferedImageToMat(image);
 		Mat mat2 = getFilteredMat(mat);
 		BufferedImage bufImg = mat2Img(mat2);
@@ -83,22 +83,22 @@ public class HSVimgFactory {
 	private static BufferedImage mat2Img(Mat in)
 	{
 		BufferedImage out;
-		byte[] data = new byte[320 * 240 * (int)in.elemSize()];
+		byte[] data = new byte[in.cols() * in.rows() * (int)in.elemSize()];
 		int type;
 		in.get(0, 0, data);
 
 		if(in.channels() == 1) {
 			type = BufferedImage.TYPE_BYTE_GRAY;
-			System.out.println("GRAYSCALE");
+//						System.out.println("GRAYSCALE");
 		}
 		else {
 			type = BufferedImage.TYPE_3BYTE_BGR;
-			System.out.println("BGR COLORED");
+			//			System.out.println("BGR COLORED");
 
 		}
-		out = new BufferedImage(320, 240, type);
+		out = new BufferedImage(in.cols(), in.rows(), type);
 
-		out.getRaster().setDataElements(0, 0, 320, 240, data);
+		out.getRaster().setDataElements(0, 0, in.cols(), in.rows(), data);
 		return out;
 	}
 

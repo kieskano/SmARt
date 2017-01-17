@@ -7,12 +7,14 @@ public class Number {
   private int y;
   private int size;
   private boolean isTouched;
+  private boolean isLeftNumber;
   
-  public Number(int value, int x, int y, int size) {
+  public Number(int value, int x, int y, int size, boolean isLeftNumber) {
     this.value = value;
     this.x = x;
     this.y = y;
     this.size = size;
+    this.isLeftNumber = isLeftNumber;
     
     isTouched = false;
   }
@@ -39,6 +41,14 @@ public class Number {
   
   public void setIsTouched(boolean isTouched) {
     this.isTouched = isTouched;
+  }
+  
+  /**
+   * Returns whether the number is located in the left or right area of the screen
+   * @return - true if number is on the left side, false if the number is on the right side
+   */
+  public boolean getIsLeftNumber() {
+	  return isLeftNumber;
   }
   
   /**

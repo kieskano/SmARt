@@ -88,7 +88,7 @@ public class Screen {
           }
         }
       }
-      leftNumbers.add(new Number(integer, x, y, SmARt.NUMBER_SQUARE_SIZE));
+      leftNumbers.add(new Number(integer, x, y, SmARt.NUMBER_SQUARE_SIZE, true));
     }
     
     ArrayList<Number> rightNumbers = new ArrayList<>();
@@ -112,7 +112,7 @@ public class Screen {
           }
         }
       }
-      rightNumbers.add(new Number(integer, x, y, SmARt.NUMBER_SQUARE_SIZE));
+      rightNumbers.add(new Number(integer, x, y, SmARt.NUMBER_SQUARE_SIZE, false));
     }
     
     screen.setNumbers(leftNumbers, rightNumbers);
@@ -132,7 +132,7 @@ public class Screen {
     case SUBTRACT:
       answer = leftNr - rightNr;
       break;
-    case DEVIDE:
+    case DIVIDE:
       answer = leftNr / rightNr;
       break;
     case MULTIPLY:

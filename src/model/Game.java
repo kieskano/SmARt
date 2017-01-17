@@ -23,10 +23,10 @@ public class Game {
       screen = Screen.generateScreen(SmARt.SCREEN_DIMENSION);
       answerIsCorrect = false;
     }
-    ArrayList<Integer> touchedNrs = new ArrayList<>();
+    ArrayList<Number> touchedNrs = new ArrayList<>();
     for (Number number : screen.getAllNumbers()) {
       if (number.isTouched()) {
-        touchedNrs.add(number.getValue());
+        touchedNrs.add(number);
       }
     }
     if (screen.getObjective().isCorrect(touchedNrs)) {

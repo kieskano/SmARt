@@ -143,27 +143,27 @@ public class GameView extends Application {
         gc.fillText(text, number.getX() + number.getSize()/2 - fl.computeStringWidth(text, NUMBER_TEXT_FONT)/2, number.getY() + number.getSize()/2 + NUMBER_TEXT_SIZE/3);
         
         //DEBUG SHIT TODO
-        int xLoc = (int) (number.getX() * SmARt.IMG_SCALING);
-        int yLoc = (int) (number.getY() * SmARt.IMG_SCALING);
-        int size = (int) (number.getSize() * SmARt.IMG_SCALING);
-        int r = 0;
-        int g = 0;
-        int b = 0;
-
-        for (int x = xLoc; x < (xLoc + size); x++) {
-          for (int y = yLoc; y < (yLoc + size); y++) {
-            int color = bImage.getRGB(x, y);
-            b = b + (int) (color & 0xff);
-            g = g + (int) ((color & 0xff00) >> 8);
-            r = r + (int) ((color & 0xff0000) >> 16);
-          }
-        }
-        r = r / (size * size);
-        g = g / (size * size);
-        b = b / (size * size);
-        gc.setFill(Color.YELLOW);
-        gc.setFont(DEBUG_FONT);
-        gc.fillText("R=" + r + " G=" + g + " B=" + b, number.getX(), number.getY() + 10);
+//        int xLoc = (int) (number.getX() * SmARt.IMG_SCALING);
+//        int yLoc = (int) (number.getY() * SmARt.IMG_SCALING);
+//        int size = (int) (number.getSize() * SmARt.IMG_SCALING);
+//        int r = 0;
+//        int g = 0;
+//        int b = 0;
+//
+//        for (int x = xLoc; x < (xLoc + size); x++) {
+//          for (int y = yLoc; y < (yLoc + size); y++) {
+//            int color = bImage.getRGB(x, y);
+//            b = b + (int) (color & 0xff);
+//            g = g + (int) ((color & 0xff00) >> 8);
+//            r = r + (int) ((color & 0xff0000) >> 16);
+//          }
+//        }
+//        r = r / (size * size);
+//        g = g / (size * size);
+//        b = b / (size * size);
+//        gc.setFill(Color.YELLOW);
+//        gc.setFont(DEBUG_FONT);
+//        gc.fillText("R=" + r + " G=" + g + " B=" + b, number.getX(), number.getY() + 10);
       }
 
       //Draw border

@@ -27,7 +27,7 @@ public class SmARt {
   public static final int BIGGEST_NUMBER = 9;
   public static final long TIME_CHECKMARK_SHOWED = 3000;
   public static double IMG_SCALING = CAM_DIMENSION.getWidth() / SCREEN_DIMENSION.getWidth();
-  public static final List<Type> ARITHMETIC_INSTRUCTIONS = Arrays.asList(new Type[]{Type.ADD, Type.SUBTRACT, Type.MULTIPLY});
+  public static final List<Type> ARITHMETIC_INSTRUCTIONS = Arrays.asList(new Type[]{Type.ADD, Type.SUBTRACT, Type.MULTIPLY, Type.DIVIDE});
 
   private SmARt() {	}
 

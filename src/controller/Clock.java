@@ -35,6 +35,11 @@ public class Clock extends Thread {
         tick();
         if (game.isGameOver()) {
           HighScores.writeScore();
+          try {
+            Thread.sleep(2000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
           Player.resetScore();
           break;
         }

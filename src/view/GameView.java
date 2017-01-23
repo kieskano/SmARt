@@ -56,7 +56,7 @@ public class GameView extends Application {
 
   public static final int TIMER_HEIGHT = 120;
   public static final int TIMER_WIDTH = 240;
-  public static final Font TIMER_FONT = Font.font(FONT_NAME, 70);
+  public static final Font TIMER_FONT = Font.font(FONT_NAME, 100);
 
   public static final Color OBJECTIVE_STROKE_COLOR = Color.DARKVIOLET;
   public static final Color OBJECTIVE_FILL_COLOR = Color.VIOLET;

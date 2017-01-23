@@ -45,7 +45,7 @@ public class Game {
       curTime = new Date().getTime();
     }
   }
-
+  
   public boolean answerIsCorrect() {
     return answerIsCorrect;
   }

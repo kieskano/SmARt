@@ -26,4 +26,8 @@ public class Player {
 		return playername;
 	}
 	
+	public static void resetScore() {
+	  score = 0;
+	}
+	
 }

@@ -161,11 +161,11 @@ public class GameView extends Application {
         gc.fillText("Your score is: " + Player.getScore(), width/2 -fl.computeStringWidth("Your score is: " + Player.getScore(), font)/2, height/4*2);
         gc.strokeText("Your score is: " + Player.getScore(), width/2 -fl.computeStringWidth("Your score is: " + Player.getScore(), font)/2, height/4*2);
 
-        //Draw "Press any button to go to the main menu"
+        //Draw "Press any key to go to the main menu"
         font = Font.font("Veranda", FontWeight.BOLD, 95);
         gc.setFont(font);
-        gc.fillText("Press any button to go to the main menu", width/2 -fl.computeStringWidth("Press any button to go to the main menu", font)/2, height/4*3);
-        gc.strokeText("Press any button to go to the main menu", width/2 -fl.computeStringWidth("Press any button to go to the main menu", font)/2, height/4*3);
+        gc.fillText("Press any key to go to the main menu", width/2 -fl.computeStringWidth("Press any key to go to the main menu", font)/2, height/4*3);
+        gc.strokeText("Press any key to go to the main menu", width/2 -fl.computeStringWidth("Press any key to go to the main menu", font)/2, height/4*3);
 
       } else {
         //Draw numbers
@@ -181,7 +181,7 @@ public class GameView extends Application {
           }
           gc.fillRect(number.getX(), number.getY(), number.getSize(), number.getSize());
           gc.strokeRect(number.getX(), number.getY(), number.getSize(), number.getSize());
-
+          
           //Draw number
           gc.setFont(NUMBER_TEXT_FONT);
           gc.setFill(TEXT_COLOR);

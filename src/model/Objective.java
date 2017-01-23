@@ -104,7 +104,7 @@ public class Objective {
 				rightNumbers++;
 			}
 		}
-		return leftNumbers > 1 && rightNumbers > 1;
+		return leftNumbers > 0 && rightNumbers > 0;
 	}
 
 	public Type getType() {

@@ -43,8 +43,9 @@ public class MainMenu extends Application {
 	private ImageView background_instruction = getBackgroundView("background_instruction.jpg");
 	
 	
+	
 	/**
-	 * Run method to launch the menu on the stage
+	 * Run method to launch the menu on the stage.
 	 */
 	@Override
 	public void start(Stage primaryStage) {

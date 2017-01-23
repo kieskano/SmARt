@@ -22,12 +22,12 @@ import model.Number;
 
 public class ImageProcessor implements ImgProcessor {
 
-  private static final int HUE_MIN = 0;		// The Hue,Saturation, Value/Brightness (HSV) values with minimum and maximum boundaries
-  private static final int HUE_MAX = 180;		// HUE range: (0-180) and SAT/VAL range: (0-255)
-  private static final int SAT_MIN = 0;
-  private static final int SAT_MAX = 255;
-  private static final int VAL_MIN = 0;
-  private static final int VAL_MAX = 35;
+  private static final int HUE_MIN = 72;		// The Hue,Saturation, Value/Brightness (HSV) values with minimum and maximum boundaries
+  private static final int HUE_MAX = 145;		// HUE range: (0-180) and SAT/VAL range: (0-255)
+  private static final int SAT_MIN = 22;
+  private static final int SAT_MAX = 103;
+  private static final int VAL_MIN = 38;
+  private static final int VAL_MAX = 72;
 
   private static final double MAX_COLORCODE = 255;
   private static final double SENSITIFITY = 0.25;

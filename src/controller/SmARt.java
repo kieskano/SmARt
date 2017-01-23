@@ -50,9 +50,9 @@ public class SmARt {
       }
     });
 
-    Game game = new Game();
     CameraReader camReader = new CameraReader(CAM_NR, CAM_DIMENSION);
-    ImgProcessor imgProcessor = new ImageProcessor();//new SimpleImageProcessor(0,0,0,20);
+    ImgProcessor imgProcessor = new ImageProcessor();
+    Game game = new Game();
     Clock clock = new Clock(game, view, camReader, imgProcessor);
     clock.start();
   }

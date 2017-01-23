@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.Date;
 
 import javafx.application.Platform;
+import menu.HighScores;
 import model.Game;
 import view.GameView;
 
@@ -31,6 +32,10 @@ public class Clock extends Thread {
       while (running) {
         long startTime = new Date().getTime();
         tick();
+        if (game.isGameOver()) {
+          HighScores.writeScore();
+          break;
+        }
         waitForNextTick(startTime);
       }
     } finally {
@@ -70,7 +75,7 @@ public class Clock extends Thread {
     Platform.runLater(new Runnable() {
       @Override
       public void run() {
-        view.update(game, image, game.answerIsCorrect());
+        view.update(game, image, game.answerIsCorrect(), game.isGameOver());
       }
     });
     if (game.answerIsCorrect()) {

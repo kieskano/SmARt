@@ -74,7 +74,7 @@ public class Screen {
 			int x = 0;
 			int y = 0;
 			while (!emptySpaceFound) {
-				x = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.width / 2.0 - SmARt.NUMBER_SQUARE_SIZE));
+				x = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.width / 2.0 - SmARt.NUMBER_SQUARE_SIZE*2));
 				y = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.height - 2.0*SmARt.NUMBER_SQUARE_SIZE) + SmARt.NUMBER_SQUARE_SIZE);
 				emptySpaceFound = true;
 				for (Number number : leftNumbers) {
@@ -98,7 +98,7 @@ public class Screen {
 			int x = 0;
 			int y = 0;
 			while (!emptySpaceFound) {
-				x = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.getWidth() / 2 - SmARt.NUMBER_SQUARE_SIZE) + (SmARt.SCREEN_DIMENSION.getWidth() / 2));
+				x = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.getWidth() / 2 - SmARt.NUMBER_SQUARE_SIZE*2) + (SmARt.SCREEN_DIMENSION.getWidth() / 2 + SmARt.NUMBER_SQUARE_SIZE));
 				y = (int) (Math.random() * (SmARt.SCREEN_DIMENSION.height - 2.0*SmARt.NUMBER_SQUARE_SIZE) + SmARt.NUMBER_SQUARE_SIZE);
 				emptySpaceFound = true;
 				for (Number number : rightNumbers) {

@@ -52,12 +52,7 @@ public class Objective {
 			for (int number : numbers) {
 				testAnswer += number;
 			}
-		} else if (type.equals(Type.SUBTRACT)) {
-//			testAnswer = Collections.max(numbers);
-//			numbers.remove(new Integer(testAnswer));
-//			for (int number : numbers) {
-//				testAnswer -= number;
-//			}
+		} else if (type.equals(Type.SUBTRACT) && numbers.size() == 2) {
 			testAnswer = numbers.get(0) - numbers.get(1);
 		} else if (type.equals(Type.MULTIPLY)) {
 			testAnswer = numbers.get(0);

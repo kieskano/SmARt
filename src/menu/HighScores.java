@@ -22,21 +22,21 @@ public class HighScores {
 	 * Adds test values to the scores list .
 	 */
 	public static void main(String[] args) {
-		System.out.println("[HighScores.java] This is the start of the HighScores test!");
-		writeScore(new Player("Henk", 20));
-		writeScore(new Player("Jan", 10));
-		writeScore(new Player("Angelina", 25));
-		writeScore(new Player("Mister", 20));
+//		System.out.println("[HighScores.java] This is the start of the HighScores test!");
+//		writeScore(new Player("Henk", 20));
+//		writeScore(new Player("Jan", 10));
+//		writeScore(new Player("Angelina", 25));
+//		writeScore(new Player("Mister", 20));
 	}
 	
 	/**
 	 * Writes the score of the given player in the scores text file.
 	 * @param player The player who's score needs to be registered
 	 */
-	public static void writeScore(Player player) {
+	public static void writeScore() {
         BufferedWriter writer = null;
         try {
-        	String data = player.getPlayername() + " " + player.getScore();
+        	String data = Player.getPlayername() + " " + Player.getScore();
         	
             writer = new BufferedWriter(new FileWriter(FILEPATH, true));
             writer.write(data);

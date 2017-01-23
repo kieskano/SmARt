@@ -17,6 +17,7 @@ import com.sun.javafx.tk.Toolkit;
 import controller.Clock;
 import controller.SmARt;
 import model.Number;
+import model.Player;
 import javafx.application.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
@@ -29,6 +30,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import menu.MainMenu;
@@ -51,6 +54,10 @@ public class GameView extends Application {
   public static final Color BORDER_COLOR = Color.BLACK;
   public static final int BORDER_WIDTH = 10;
 
+  public static final int TIMER_HEIGHT = 120;
+  public static final int TIMER_WIDTH = 240;
+  public static final Font TIMER_FONT = Font.font(FONT_NAME, 70);
+
   public static final Color OBJECTIVE_STROKE_COLOR = Color.DARKVIOLET;
   public static final Color OBJECTIVE_FILL_COLOR = Color.VIOLET;
   public static final double OBJECTIVE_TEXT_SIZE = 80;
@@ -64,6 +71,8 @@ public class GameView extends Application {
   private FontLoader fl;
   private Clock clock;
   private Image checkMark;
+  private Scene scene;
+  private Stage primaryStage;
 
   public GameView(int width, int height) {
     this.width = width;
@@ -79,8 +88,9 @@ public class GameView extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
+    this.primaryStage = primaryStage;
     fl = Toolkit.getToolkit().getFontLoader();
-    
+
     primaryStage.setTitle("SmARt");
     canvas = new Canvas(SmARt.SCREEN_DIMENSION.getWidth(), SmARt.SCREEN_DIMENSION.getHeight());
     GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -95,7 +105,7 @@ public class GameView extends Application {
     StackPane root = new StackPane();
     root.getChildren().add(canvas);
 
-    Scene scene = new Scene(root);
+    scene = new Scene(root);
     scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
       @Override
       public void handle(KeyEvent event) {
@@ -114,7 +124,7 @@ public class GameView extends Application {
     primaryStage.show();
   }
 
-  public void update(Game game, BufferedImage bImage, boolean answerCorrect) {
+  public void update(Game game, BufferedImage bImage, boolean answerCorrect, boolean gameOver) {
     if (canvas != null) {
       GraphicsContext gc = canvas.getGraphicsContext2D();
 
@@ -122,80 +132,104 @@ public class GameView extends Application {
       Image image = SwingFXUtils.toFXImage(bImage, null);
       gc.drawImage(image, 0, 0, width, height);
 
-      //Draw numbers
-      gc.setLineWidth(NUMBER_STROKE_WIDTH);
-      for (Number number : game.getScreen().getAllNumbers()) {
-        //Draw square
-        if (number.isTouched()) {
-          gc.setStroke(NUMBER_SELECTED_STROKE_COLOR);
-          gc.setFill(NUMBER_SELECTED_FILL_COLOR);
-        } else {
-          gc.setStroke(NUMBER_STROKE_COLOR);
-          gc.setFill(NUMBER_FILL_COLOR);
+      if (game.isGameOver()) {
+        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+          @Override
+          public void handle(KeyEvent event) {
+            primaryStage.close();
+            clock.pleaseStop();
+            Platform.runLater(new Runnable() {
+              public void run() {
+                new MainMenu().start(new Stage());
+              }
+            });
+
+          }
+        });
+
+        //Draw "Time is up"
+        Font font = Font.font("Veranda", FontWeight.BOLD, 250);
+        gc.setFont(font);
+        gc.setFill(Color.WHITE);
+        gc.setStroke(Color.BLACK);
+        gc.fillText("Time's up!", width/2 -fl.computeStringWidth("Time's up!", font)/2, height/4);
+        gc.strokeText("Time's up!", width/2 -fl.computeStringWidth("Time's up!", font)/2, height/4);
+
+        //Draw "Your score is : <score>"
+        font = Font.font("Veranda", FontWeight.BOLD, 200);
+        gc.setFont(font);
+        gc.fillText("Your score is: " + Player.getScore(), width/2 -fl.computeStringWidth("Your score is: " + Player.getScore(), font)/2, height/4*2);
+        gc.strokeText("Your score is: " + Player.getScore(), width/2 -fl.computeStringWidth("Your score is: " + Player.getScore(), font)/2, height/4*2);
+
+        //Draw "Press any button to go to the main menu"
+        font = Font.font("Veranda", FontWeight.BOLD, 95);
+        gc.setFont(font);
+        gc.fillText("Press any button to go to the main menu", width/2 -fl.computeStringWidth("Press any button to go to the main menu", font)/2, height/4*3);
+        gc.strokeText("Press any button to go to the main menu", width/2 -fl.computeStringWidth("Press any button to go to the main menu", font)/2, height/4*3);
+
+      } else {
+        //Draw numbers
+        gc.setLineWidth(NUMBER_STROKE_WIDTH);
+        for (Number number : game.getScreen().getAllNumbers()) {
+          //Draw square
+          if (number.isTouched()) {
+            gc.setStroke(NUMBER_SELECTED_STROKE_COLOR);
+            gc.setFill(NUMBER_SELECTED_FILL_COLOR);
+          } else {
+            gc.setStroke(NUMBER_STROKE_COLOR);
+            gc.setFill(NUMBER_FILL_COLOR);
+          }
+          gc.fillRect(number.getX(), number.getY(), number.getSize(), number.getSize());
+          gc.strokeRect(number.getX(), number.getY(), number.getSize(), number.getSize());
+
+          //Draw number
+          gc.setFont(NUMBER_TEXT_FONT);
+          gc.setFill(TEXT_COLOR);
+          String text = "" + number.getValue();
+          gc.fillText(text, number.getX() + number.getSize()/2 - fl.computeStringWidth(text, NUMBER_TEXT_FONT)/2, number.getY() + number.getSize()/2 + NUMBER_TEXT_SIZE/3);
         }
-        gc.fillRect(number.getX(), number.getY(), number.getSize(), number.getSize());
-        gc.strokeRect(number.getX(), number.getY(), number.getSize(), number.getSize());
 
-        //Draw number
-        gc.setFont(NUMBER_TEXT_FONT);
+        //Draw border
+        gc.setFill(BORDER_COLOR);
+        gc.fillRect(width / 2 - BORDER_WIDTH / 2, 0, BORDER_WIDTH, height);
+
+        //Draw objective circle and square
+        gc.setFill(OBJECTIVE_FILL_COLOR);
+        gc.setStroke(OBJECTIVE_STROKE_COLOR);
+        gc.fillOval(width/2 - OBJECTIVE_CIRCLE_SIZE/2, height/4 - OBJECTIVE_CIRCLE_SIZE/2, OBJECTIVE_CIRCLE_SIZE, OBJECTIVE_CIRCLE_SIZE);
+        gc.strokeOval(width/2 - OBJECTIVE_CIRCLE_SIZE/2, height/4 - OBJECTIVE_CIRCLE_SIZE/2, OBJECTIVE_CIRCLE_SIZE, OBJECTIVE_CIRCLE_SIZE);
+        gc.fillRect(width/2 - OBJECTIVE_SQUARE_SIZE/2, height/2 - OBJECTIVE_SQUARE_SIZE/2, OBJECTIVE_SQUARE_SIZE, OBJECTIVE_SQUARE_SIZE);
+        gc.strokeRect(width/2 - OBJECTIVE_SQUARE_SIZE/2, height/2 - OBJECTIVE_SQUARE_SIZE/2, OBJECTIVE_SQUARE_SIZE, OBJECTIVE_SQUARE_SIZE);
+
+        //Draw objective text
+        String symbol = game.getScreen().getObjective().getType().toString();
+        String answer = "" + game.getScreen().getObjective().getAnswer();
         gc.setFill(TEXT_COLOR);
-        String text = "" + number.getValue();
-        gc.fillText(text, number.getX() + number.getSize()/2 - fl.computeStringWidth(text, NUMBER_TEXT_FONT)/2, number.getY() + number.getSize()/2 + NUMBER_TEXT_SIZE/3);
-        
-        //DEBUG SHIT TODO
-//        int xLoc = (int) (number.getX() * SmARt.IMG_SCALING);
-//        int yLoc = (int) (number.getY() * SmARt.IMG_SCALING);
-//        int size = (int) (number.getSize() * SmARt.IMG_SCALING);
-//        int r = 0;
-//        int g = 0;
-//        int b = 0;
-//
-//        for (int x = xLoc; x < (xLoc + size); x++) {
-//          for (int y = yLoc; y < (yLoc + size); y++) {
-//            int color = bImage.getRGB(x, y);
-//            b = b + (int) (color & 0xff);
-//            g = g + (int) ((color & 0xff00) >> 8);
-//            r = r + (int) ((color & 0xff0000) >> 16);
-//          }
-//        }
-//        r = r / (size * size);
-//        g = g / (size * size);
-//        b = b / (size * size);
-//        gc.setFill(Color.YELLOW);
-//        gc.setFont(DEBUG_FONT);
-//        gc.fillText("R=" + r + " G=" + g + " B=" + b, number.getX(), number.getY() + 10);
+        gc.setFont(OBJECTIVE_TEXT_FONT);
+        gc.fillText(symbol, width/2 - fl.computeStringWidth(symbol, OBJECTIVE_TEXT_FONT)/2, height/4 + OBJECTIVE_TEXT_FONT.getSize()/3);
+        gc.fillText(answer, width/2 - fl.computeStringWidth(answer, OBJECTIVE_TEXT_FONT)/2, height/2 + OBJECTIVE_TEXT_FONT.getSize()/3);
+
+        //Draw timer
+        gc.setFill(OBJECTIVE_FILL_COLOR);
+        gc.setStroke(OBJECTIVE_STROKE_COLOR);
+        gc.fillRoundRect(width/2 - TIMER_WIDTH/2, 20, TIMER_WIDTH, TIMER_HEIGHT, 40, 40);
+        gc.strokeRoundRect(width/2 - TIMER_WIDTH/2, 20, TIMER_WIDTH, TIMER_HEIGHT, 40, 40);
+        String time = game.getTimeLeft();
+        gc.setFill(TEXT_COLOR);
+        gc.setFont(TIMER_FONT);
+        gc.fillText(time, width/2 - fl.computeStringWidth(time, TIMER_FONT)/2, 20 + TIMER_HEIGHT/2 + TIMER_FONT.getSize()/3);
+
+
+        //Draw check mark
+        if (answerCorrect) {
+          gc.setGlobalAlpha(0.6);
+          gc.drawImage(checkMark, width/2 - checkMark.getWidth()/2, height/2 - checkMark.getHeight()/2);
+          gc.setGlobalAlpha(1);
+        }
       }
 
-      //Draw border
-      gc.setFill(BORDER_COLOR);
-      gc.fillRect(width / 2 - BORDER_WIDTH / 2, 0, BORDER_WIDTH, height);
 
-      //Draw objective circle and square
-      gc.setFill(OBJECTIVE_FILL_COLOR);
-      gc.setStroke(OBJECTIVE_STROKE_COLOR);
-      gc.fillOval(width/2 - OBJECTIVE_CIRCLE_SIZE/2, height/4 - OBJECTIVE_CIRCLE_SIZE/2, OBJECTIVE_CIRCLE_SIZE, OBJECTIVE_CIRCLE_SIZE);
-      gc.strokeOval(width/2 - OBJECTIVE_CIRCLE_SIZE/2, height/4 - OBJECTIVE_CIRCLE_SIZE/2, OBJECTIVE_CIRCLE_SIZE, OBJECTIVE_CIRCLE_SIZE);
-      gc.fillRect(width/2 - OBJECTIVE_SQUARE_SIZE/2, height/2 - OBJECTIVE_SQUARE_SIZE/2, OBJECTIVE_SQUARE_SIZE, OBJECTIVE_SQUARE_SIZE);
-      gc.strokeRect(width/2 - OBJECTIVE_SQUARE_SIZE/2, height/2 - OBJECTIVE_SQUARE_SIZE/2, OBJECTIVE_SQUARE_SIZE, OBJECTIVE_SQUARE_SIZE);
 
-      //Draw objective text
-      String symbol = game.getScreen().getObjective().getType().toString();
-      String answer = "" + game.getScreen().getObjective().getAnswer();
-      gc.setFill(TEXT_COLOR);
-      gc.setFont(OBJECTIVE_TEXT_FONT);
-      gc.fillText(symbol, width/2 - fl.computeStringWidth(symbol, OBJECTIVE_TEXT_FONT)/2, height/4 + OBJECTIVE_TEXT_FONT.getSize()/3);
-      gc.fillText(answer, width/2 - fl.computeStringWidth(answer, OBJECTIVE_TEXT_FONT)/2, height/2 + OBJECTIVE_TEXT_FONT.getSize()/3);
-      
-      
-      gc.setStroke(Color.GREEN);
-      gc.strokeRect(0,0,50,50);
-      
-      //Draw check mark
-      if (answerCorrect) {
-        gc.setGlobalAlpha(0.6);
-        gc.drawImage(checkMark, width/2 - checkMark.getWidth()/2, height/2 - checkMark.getHeight()/2);
-        gc.setGlobalAlpha(1);
-      }
     }
   }
 

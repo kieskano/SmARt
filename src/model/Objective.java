@@ -41,7 +41,7 @@ public class Objective {
 	public boolean isCorrect(ArrayList<Number> numbersList) {
 		ArrayList<Integer> numbers = getNumberValues(numbersList);
 		
-		int testAnswer = 0;
+		double testAnswer = 0;
 		
 		//Make sure that the game does accept input using less than 2 tiles
 		if(numbers.size() < 2 || !hasBothTiles(numbersList)) {
@@ -53,11 +53,12 @@ public class Objective {
 				testAnswer += number;
 			}
 		} else if (type.equals(Type.SUBTRACT)) {
-			testAnswer = Collections.max(numbers);
-			numbers.remove(new Integer(testAnswer));
-			for (int number : numbers) {
-				testAnswer -= number;
-			}
+//			testAnswer = Collections.max(numbers);
+//			numbers.remove(new Integer(testAnswer));
+//			for (int number : numbers) {
+//				testAnswer -= number;
+//			}
+			testAnswer = numbers.get(0) - numbers.get(1);
 		} else if (type.equals(Type.MULTIPLY)) {
 			testAnswer = numbers.get(0);
 			for (int i = 1; i < numbers.size(); i++) {
@@ -66,9 +67,9 @@ public class Objective {
 		} else if (type.equals(Type.DIVIDE)) {
 			if (numbers.size() == 2) {
 				if (numbers.get(0) / numbers.get(1) > 0) {
-					testAnswer = numbers.get(0) / numbers.get(1);
+					testAnswer = numbers.get(0) / (double) numbers.get(1);
 				} else {
-					testAnswer = numbers.get(1) / numbers.get(0);
+					testAnswer = numbers.get(1) / (double) numbers.get(0);
 				}
 			}
 		}

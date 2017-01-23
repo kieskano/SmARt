@@ -6,6 +6,7 @@ import java.util.Date;
 import javafx.application.Platform;
 import menu.HighScores;
 import model.Game;
+import model.Player;
 import view.GameView;
 
 public class Clock extends Thread {
@@ -34,6 +35,7 @@ public class Clock extends Thread {
         tick();
         if (game.isGameOver()) {
           HighScores.writeScore();
+          Player.resetScore();
           break;
         }
         waitForNextTick(startTime);

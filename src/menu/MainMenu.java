@@ -173,6 +173,8 @@ public class MainMenu extends Application {
 			
 			MenuButton spButton = new MenuButton("Singleplayer");
 			spButton.setOnMouseClicked(event -> {
+			  stage.close();
+        SmARt.gameLoop();
 //				SmARt.gameLoop(false);
 			});
 			
